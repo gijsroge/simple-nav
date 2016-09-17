@@ -47,10 +47,8 @@
             checkVars: function (data) {
                 data.toggleWidth = data.element.find('.js-mainnav-toggle-wrapper').outerWidth();
                 data.viewportWidth = $(window).width();
-                data.menuHeight = data.element.height();
-                //console.log('menuHeight: '+data.menuHeight);
+                data.menuHeight = data.element.outerHeight();
                 data.itemHeight = this.maxHeight(data.element.children('li'));
-                //console.log('itemHeight: '+data.itemHeight);
                 data.lowestViewport = this.getLowestViewportBreak(data.breaks);
             },
 
@@ -76,7 +74,7 @@
             maxHeight: function(selector){
                 var maxHeight = 0;
                 selector.each(function(){
-                    var height = $(this).height();
+                    var height = $(this).outerHeight();
                     if (height > maxHeight) { maxHeight = height; }
                 })
                 return maxHeight;
@@ -87,13 +85,10 @@
              */
             checkMove: function (data) {
                 while (data.menuHeight > data.itemHeight && data.element.children('li').length > 0) {
-                    console.log('menuHeight: '+data.menuHeight);
-                    console.log('itemHeight: '+data.itemHeight);
                     var item = data.element.children('li:nth-last-child(2)');
                     this.moveItem(item, data);
                     this.checkVars(data);
                 }
-                console.log('menuHeight outside: '+data.menuHeight);
             },
             moveItem: function (element, data) {
                 element.prependTo(data.element.find('.js-mainnav-dropdown'));
@@ -120,8 +115,12 @@
             checkDropdown: function (data) {
                 if (data.breaks.length > 0) {
                     data.element.find('.js-mainnav-toggle-wrapper').show();
+                    this.checkVars(data);
+                    this.checkMove(data);
                 } else {
                     data.element.find('.js-mainnav-toggle-wrapper').hide();
+                    this.checkVars(data);
+                    this.checkRetrieve(data);
                 }
             },
 

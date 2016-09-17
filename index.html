@@ -4,19 +4,27 @@
     <meta charset="UTF-8">
     <title>simple-nav</title>
     <style>
+        *{
+            box-sizing: border-box;
+        }
         ul{
             list-style: none;
             padding: 0;
             margin: 0;
         }
+        li a{
+            display: block;
+        }
         li{
             display: inline-block;
+            vertical-align: middle;
         }
         li ul li{
             display: block;
         }
         .js-mainnav-toggle-wrapper{
             border: solid red;
+            padding: 10px;
         }
     </style>
 </head>
