@@ -48,18 +48,20 @@
                 data.toggleWidth = data.element.find('.js-mainnav-toggle-wrapper').outerWidth();
                 data.viewportWidth = $(window).width();
                 data.menuHeight = data.element.height();
-                data.itemHeight = data.element.children('li').height();
-                data.highestItem = this.getFirstAddedItem(data.breaks);
+                //console.log('menuHeight: '+data.menuHeight);
+                data.itemHeight = this.maxHeight(data.element.children('li'));
+                //console.log('itemHeight: '+data.itemHeight);
+                data.lowestViewport = this.getLowestViewportBreak(data.breaks);
             },
 
 
             /**
-             * Retrieve first added element
+             * Retrieve lowest item
              *
              * @param array
              * @returns {number}
              */
-            getFirstAddedItem: function (array) {
+            getLowestViewportBreak: function (array) {
                 return Math.min.apply(Math, array.map(function (o) {
                     return o.break;
                 }))
@@ -67,14 +69,31 @@
 
 
             /**
+             * Select tallest element in object
+             *
+             * @param selector must be jQuery object
+             */
+            maxHeight: function(selector){
+                var maxHeight = 0;
+                selector.each(function(){
+                    var height = $(this).height();
+                    if (height > maxHeight) { maxHeight = height; }
+                })
+                return maxHeight;
+            },
+
+            /**
              * Check if we have to move an item to dropdown
              */
             checkMove: function (data) {
                 while (data.menuHeight > data.itemHeight && data.element.children('li').length > 0) {
+                    console.log('menuHeight: '+data.menuHeight);
+                    console.log('itemHeight: '+data.itemHeight);
                     var item = data.element.children('li:nth-last-child(2)');
                     this.moveItem(item, data);
                     this.checkVars(data);
                 }
+                console.log('menuHeight outside: '+data.menuHeight);
             },
             moveItem: function (element, data) {
                 element.prependTo(data.element.find('.js-mainnav-dropdown'));
@@ -86,7 +105,7 @@
              * Check if we have to retrieve an item
              */
             checkRetrieve: function (data) {
-                while (data.viewportWidth > data.highestItem && data.breaks.length > 0) {
+                while (data.viewportWidth > data.lowestViewport && data.breaks.length > 0) {
                     this.retrieveItem(data);
                     this.checkVars(data);
                 }
