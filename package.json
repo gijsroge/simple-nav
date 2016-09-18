@@ -1,0 +1,19 @@
+{
+  "name": "simple-nav.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "jquery-3.1.0.slim.min.js",
+  "scripts": {
+    "test": "./node_modules/jshint/bin/jshint simple-nav.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/gijsroge/simplenav.git"
+  },
+  "author": "gijsroge <rogegijs@gmail.com>",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/gijsroge/simplenav#readme",
+  "devDependencies": {
+    "jshint": "^2.9.3"
+  }
+}
