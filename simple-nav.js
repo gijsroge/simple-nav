@@ -40,7 +40,7 @@
                     _this.check(data);
                     _this.toggleDropdown(data);
                     _this.bindResize(data);
-                })
+                });
             },
 
 
@@ -55,7 +55,7 @@
                     '<button id="menu-button-' + data.instance + '" aria-label="Menu" aria-expanded="false" aria-controls="menu-' + data.instance + '" type="button" class="' + data.settings.toggle + '">toggle</button>' +
                     '<ul id="menu-' + data.instance + '" aria-hidden="true" aria-labelledby="menu-button-' + data.instance + '" style="position: absolute;" class="' + data.settings.dropdown + '"></ul>' +
                     '</li>' +
-                    '')
+                    '');
             },
 
 
@@ -79,7 +79,7 @@
             getLowestViewportBreak: function (array) {
                 return Math.min.apply(Math, array.map(function (o) {
                     return o.break;
-                }))
+                }));
             },
 
 
@@ -96,7 +96,7 @@
                     if (height > maxHeight) {
                         maxHeight = height;
                     }
-                })
+                });
                 return maxHeight;
             },
 
@@ -192,8 +192,8 @@
                     $('.' + data.settings.dropdown).attr('aria-hidden', 'true');
 
                     // Toggle classes
-                    $(data.element).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass)
-                }
+                    $(data.element).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
+                };
             },
 
 
@@ -256,11 +256,11 @@
             bindResize: function (data) {
                 // Bind resize event to window object
                 var check = this.debounce(function () {
-                    app.check(data)
+                    app.check(data);
                 }, data.settings.throttle);
                 $(window).on('resize', check);
             }
-        }
+        };
 
         app.init();
 
