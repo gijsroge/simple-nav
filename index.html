@@ -4,33 +4,41 @@
     <meta charset="UTF-8">
     <title>simple-nav</title>
     <style>
-        *{
+        * {
             box-sizing: border-box;
         }
-        ul{
+
+        .js-simplenav {
+            padding: 10px;
+        }
+
+        ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        li a{
+
+        li a {
             display: block;
         }
-        li{
+
+        li {
             display: inline-block;
             vertical-align: middle;
         }
-        li ul li{
+
+        li ul li {
             display: block;
         }
-        .js-mainnav-toggle-wrapper{
-            border: solid red;
+
+        .js-simplenav-wrapper {
             padding: 10px;
         }
     </style>
 </head>
 <body>
 <nav>
-    <ul class="js-mainnav">
+    <ul class="js-simplenav">
         <li><a href="#">test1</a></li>
         <li><a href="#">test2</a></li>
         <li><a href="#">test3</a></li>
@@ -51,8 +59,8 @@
 <script src="jquery-3.1.0.slim.min.js"></script>
 <script src="simple-nav.js"></script>
 <script>
-    $('.js-mainnav').simplenav({
-        test: 'terst'
+    $('.js-simplenav').simplenav({
+        throttle: 0
     });
 </script>
 </body>
