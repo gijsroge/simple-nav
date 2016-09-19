@@ -8,9 +8,7 @@
             box-sizing: border-box;
         }
 
-        .js-simplenav {
-            padding: 10px;
-        }
+
 
         ul {
             list-style: none;
@@ -30,15 +28,11 @@
         li ul li {
             display: block;
         }
-
-        .js-simplenav-wrapper {
-            padding: 10px;
-        }
     </style>
 </head>
 <body>
 <nav>
-    <ul class="js-simplenav">
+    <ul class="js-simplenav" data-simplenav-menu="menu" data-simplenav-more="more">
         <li><a href="#">test1</a></li>
         <li><a href="#">test2</a></li>
         <li><a href="#">test3</a></li>
@@ -57,11 +51,9 @@
     </ul>
 </nav>
 <script src="jquery-3.1.0.slim.min.js"></script>
-<script src="simple-nav.js"></script>
+<script src="src/simple-nav.js"></script>
 <script>
-    $('.js-simplenav').simplenav({
-        throttle: 0
-    });
+    var simpleNav = $('.js-simplenav').simplenav();
 </script>
 </body>
 </html>
