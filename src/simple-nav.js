@@ -145,7 +145,7 @@
                  * Recheck to make sure that not everything is moved back because they had the same
                  * breakpoint because of the collapse breakpoint setting was larger than the viewport.
                  */
-                if(data.dropdown.children().length == 0){
+                if(data.dropdown.children().length === 0){
                     this.checkMove(data);
                 }
             },
@@ -232,7 +232,7 @@
              * @param data
              */
             checklabel: function (data) {
-                if ($(window).width() < data.settings.collapse || data.element.children().length == 0) {
+                if ($(window).width() < data.settings.collapse || data.element.children().length === 0) {
                     data.element.find('.js-simplenav-label').html(data.settings.menu);
                 } else {
                     data.element.find('.js-simplenav-label').html(data.settings.more);
