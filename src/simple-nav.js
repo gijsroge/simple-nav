@@ -37,7 +37,16 @@
             init: function () {
                 var _this = this;
                 var instance = 0;
+
+
                 simplenavElement.each(function () {
+
+                    // Test if simple nav is binded to ul before continuing.
+                    var test = $(this).is('ul');
+                    if (!test) {
+                        console.warn('[!] wrong element, please bind simplenav to ul\'s only');
+                        return;
+                    }
 
                     /**
                      * Set data object to store settings & breakpoints
@@ -65,11 +74,11 @@
             prepareHtml: function (data) {
                 if (data.element.find(data.settings.toggle).length) return;
                 data.element.append('' +
-                    '<li class="' + data.settings.toggleWrapper + '" style="display:none;">' +
-                    '<button id="menu-button-' + data.instance + '" aria-label="Menu" aria-expanded="false" aria-controls="menu-' + data.instance + '" type="button" class="' + data.settings.toggle + '"><span class="js-simplenav-label">'+data.settings.more+'</span></button>' +
-                    '<ul id="menu-' + data.instance + '" aria-hidden="true" aria-labelledby="menu-button-' + data.instance + '" style="position: absolute;" class="' + data.settings.dropdown + '"></ul>' +
-                    '</li>' +
-                    '');
+                  '<li class="' + data.settings.toggleWrapper + '" style="display:none;">' +
+                  '<button id="menu-button-' + data.instance + '" aria-label="Menu" aria-expanded="false" aria-controls="menu-' + data.instance + '" type="button" class="' + data.settings.toggle + '"><span class="js-simplenav-label">'+data.settings.more+'</span></button>' +
+                  '<ul id="menu-' + data.instance + '" aria-hidden="true" aria-labelledby="menu-button-' + data.instance + '" style="position: absolute;" class="' + data.settings.dropdown + '"></ul>' +
+                  '</li>' +
+                  '');
             },
 
 
@@ -128,6 +137,8 @@
             moveItem: function (element, data) {
                 element.prependTo(data.element.find('.' + data.settings.dropdown));
                 data.breaks.push({'break': data.viewportWidth});
+                console.log('move item');
+                this.checklabel(data);
             },
 
 
@@ -153,7 +164,10 @@
                 var item = data.element.find('.' + data.settings.dropdown).children('li:first-child');
                 item.insertBefore(data.element.children('li:last-child'));
                 data.breaks.pop();
+                console.log('retrieve item');
+                this.checklabel(data);
             },
+
 
             /**
              * Toggle dropdown
@@ -192,11 +206,11 @@
 
                     // Add active classes
                     $(element)
-                        .addClass(data.settings.activeclass)
-                        .closest('.' + data.settings.toggleWrapper)
-                        .addClass(data.settings.activeclass)
-                        .find('.' + data.settings.dropdown)
-                        .addClass(data.settings.activeclass);
+                      .addClass(data.settings.activeclass)
+                      .closest('.' + data.settings.toggleWrapper)
+                      .addClass(data.settings.activeclass)
+                      .find('.' + data.settings.dropdown)
+                      .addClass(data.settings.activeclass);
                 };
 
                 /**
@@ -232,12 +246,16 @@
              * @param data
              */
             checklabel: function (data) {
-                if ($(window).width() < data.settings.collapse || data.element.children().length === 0) {
+                console.log(data.element.children());
+                if ($(window).width() < data.settings.collapse || data.element.children().length === 1) {
                     data.element.find('.js-simplenav-label').html(data.settings.menu);
+                    console.log('menu');
                 } else {
                     data.element.find('.js-simplenav-label').html(data.settings.more);
+                    console.log('more');
                 }
             },
+
 
             /**
              * Main logic check
@@ -248,7 +266,6 @@
                 this.checkMove(data);
                 this.checkRetrieve(data);
                 this.checkDropdown(data);
-                this.checklabel(data);
                 this.checkVars(data);
                 this.checkMove(data);
             },
@@ -277,6 +294,7 @@
                     if (callNow) func.apply(context, args);
                 };
             },
+
 
             /**
              * Bind resize event
