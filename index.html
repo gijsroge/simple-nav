@@ -54,6 +54,13 @@
 <script src="src/simple-nav.js"></script>
 <script>
     var simpleNav = $('.js-simplenav').simplenav();
+    console.log(simpleNav);
+    simpleNav.on('toDropdown.simplenav', function(e, element){
+        console.log('items in dropdown: '+items);
+    })
+    simpleNav.on('toMenu.simplenav', function(e, element){
+        console.log('items in menu: '+items);
+    })
 </script>
 </body>
 </html>
