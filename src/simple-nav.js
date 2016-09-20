@@ -21,6 +21,13 @@
                     var instance = 0;
                     el.each(function () {
 
+                        // Test if simple nav is binded to ul before continuing.
+                        var test = $(this).is('ul');
+                        if (!test) {
+                            console.warn('[!] wrong element, please bind simplenav to ul\'s only');
+                            return;
+                        }
+
                         /**
                          * Set data object to store settings & breakpoints
                          * @type {{}}
@@ -110,6 +117,7 @@
                 moveItem: function (element, data) {
                     element.prependTo(data.element.find('.' + data.settings.dropdown));
                     data.breaks.push({'break': data.viewportWidth});
+                    this.checklabel(data);
 
                     /**
                      * Callback for when item is moved to dropdown
@@ -141,6 +149,7 @@
                     var item = data.element.find('.' + data.settings.dropdown).children('li:first-child');
                     item.insertBefore(data.element.children('li:last-child'));
                     data.breaks.pop();
+                    this.checklabel(data);
 
                     /**
                      * Callback for when item is moved back to menu
