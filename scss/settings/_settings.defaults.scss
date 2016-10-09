@@ -1,0 +1,114 @@
+/*
+ *  Default Settings
+ *  ---
+ *  Only override the !default variables in '_settings.project.scss' to suit your project needs
+ */
+
+/*
+ * Base typographical styles and baseline grid. You need to define these values
+ * in pixels: inuitcss will convert them to more appropriate units.
+ */
+$global-font-size: 18px !default;
+$global-line-height: 26px !default;
+
+/**
+ * Font family's
+ */
+$fallback-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$primary-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$secondary-font-family: $primary-font-family !default;
+
+/**
+ * Font weights
+ */
+$light: 300;
+$normal: 400;
+$semi-bold: 600;
+$bold: 700;
+$extra-bold: 800;
+
+/**
+ * Font sizes
+ */
+$font-size-h1: 36px !default;
+$font-size-h2: 28px !default;
+$font-size-h3: 24px !default;
+$font-size-h4: 20px !default;
+$font-size-h5: 18px !default;
+$font-size-h6: 16px !default;
+$font-size-tiny: 12px !default;
+$font-size-small: 16px !default;
+$font-size-default: $global-font-size !default;
+$font-size-large: 22px !default;
+$font-size-huge: 28px !default;
+
+/**
+ * Debug mode
+ */
+$debug-mode: false !default;
+
+/*
+ * Spacing values are determined based on your project’s global line height (i.e
+ * your baseline grid). It is not recommended that you modify these following
+ * variables (it can break your vertical rhythm), but if you need to, you can.
+ */
+$global-spacing-unit: round($global-line-height) !default;
+
+/**
+ * Wrapper
+ */
+$wrapper-width: 1600px !default;
+$wrapper-gutter: $global-spacing-unit !default;
+
+/*
+ * How many times larger/smaller than the default should our spacing unit
+ * variants be?
+*/
+$global-spacing-unit-factor-tiny: 0.25 !default;
+$global-spacing-unit-factor-small: 0.5 !default;
+$global-spacing-unit-factor-medium: 1.75 !default;
+$global-spacing-unit-factor-large: 2.5 !default;
+$global-spacing-unit-factor-huge: 4 !default;
+
+
+/**
+ * Bootstrap grid
+ */
+$grid-breakpoints: (
+        // Extra small screen / phone
+        xs: 0,
+        // Small screen / phone
+        sm: 544px,
+        // Medium screen / tablet
+        md: 768px,
+        // Large screen / desktop
+        lg: 992px,
+        // Extra large screen / wide desktop
+        xl: 1200px
+);
+
+/**
+ * Grid containers
+ *
+ * Define the maximum width of `.container` for different screen sizes.
+ */
+$container-max-widths: (
+        sm: 576px,
+        md: 720px,
+        lg: 940px,
+        xl: $wrapper-width
+);
+
+/**
+ * Grid columns
+ *
+ * Set the number of columns and specify the width of the gutters.
+ */
+$grid-columns: 12;
+$grid-gutter-width: 0;
+
+/**
+ * Wrapper
+ */
+$wrapper-width: 1700px;
+$wrapper-gutter: $global-spacing-unit;

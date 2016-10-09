@@ -1,0 +1,38 @@
+/*
+ *  Settings: Colors
+ *  ---
+ *  Every color that is being used should be defined here.
+ *  Based on : http://erskinedesign.com/blog/friendlier-colour-names-sass-maps/
+ */
+
+$color-base: #333 !default;
+$color-neutral: #AAA !default;
+$color-error: #DA2327 !default;
+$color-success: #3D9970 !default;
+
+// Palettes
+$palettes: (
+  color-base: (
+    x-light : hsl(hue($color-base), 0, 100),
+    light : hsl(hue($color-base), 0, 90),
+    base : $color-base,
+    dark : hsl(hue($color-base), 0, 0)
+  ),
+  color-neutral: (
+    x-light : hsl(hue($color-neutral), 0, 100),
+    light : hsl(hue($color-neutral), 0, 90),
+    base : $color-neutral,
+    dark : hsl(hue($color-neutral), 0, 30),
+    x-dark : hsl(hue($color-neutral), 0, 10)
+  ),
+  color-error: (
+    light : hsl(hue($color-error), 70, 60),
+    base : $color-error,
+    dark : hsl(hue($color-error), 100, 35),
+  ),
+  color-success: (
+    light : hsl(hue($color-success), 70, 60),
+    base : $color-success,
+    dark : hsl(hue($color-success), 60, 25),
+  )
+) !default;

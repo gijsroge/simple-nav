@@ -3,63 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>simple-nav</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        li a {
-            display: block;
-        }
-
-        li {
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        li ul li {
-            display: block;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600,700" rel="stylesheet">
 </head>
 <body>
-<nav>
-    <ul class="js-simplenav" data-simplenav-menu="menu" data-simplenav-more="more">
-        <li><a href="#">test1</a></li>
-        <li><a href="#">test2</a></li>
-        <li><a href="#">test3</a></li>
-        <li><a href="#">test4</a></li>
-        <li><a href="#">test5 <br> test</a></li>
-        <li><a href="#">test6</a></li>
-        <li><a href="#">test7</a></li>
-        <li><a href="#">test8</a></li>
-        <li><a href="#">test9</a></li>
-        <li><a href="#">test10</a></li>
-        <li><a href="#">test11</a></li>
-        <li><a href="#">test12</a></li>
-        <li><a href="#">test13</a></li>
-        <li><a href="#">test14</a></li>
-        <li><a href="#">test15</a></li>
-    </ul>
-</nav>
+<header>
+    <nav class="o-wrapper o-wrapper--center u-flex-set">
+        <ul class="js-simplenav o-list-inline" data-simplenav-menu="menu" data-simplenav-more="more">
+            <li><a href="#">test1</a></li>
+            <li><a href="#">test2</a></li>
+            <li><a href="#">test3</a></li>
+            <li><a href="#">test4</a></li>
+            <li><a href="#">test5</a></li>
+            <li><a href="#">test6</a></li>
+            <li><a href="#">test7</a></li>
+            <li><a href="#">test8</a></li>
+            <li><a href="#">test9</a></li>
+            <li><a href="#">test10</a></li>
+            <li><a href="#">test11</a></li>
+            <li><a href="#">test12</a></li>
+            <li><a href="#">test13</a></li>
+            <li><a href="#">test14</a></li>
+            <li><a href="#">test15</a></li>
+        </ul>
+        <ul class="o-list-inline c-demo-nav">
+            <li>test</li>
+            <li>test</li>
+            <li>test</li>
+            <li>test</li>
+            <li>test</li>
+        </ul>
+    </nav>
+</header>
 <script src="jquery-3.1.0.slim.min.js"></script>
 <script src="src/simple-nav.js"></script>
 <script>
     var simpleNav = $('.js-simplenav').simplenav();
-    console.log(simpleNav);
     simpleNav.on('toDropdown.simplenav', function(e, element){
-        console.log('items in dropdown: '+items);
-    })
-    simpleNav.on('toMenu.simplenav', function(e, element){
-        console.log('items in menu: '+items);
+        console.log(element);
     })
 </script>
 </body>

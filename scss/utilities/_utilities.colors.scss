@@ -1,0 +1,23 @@
+/*
+ *  Utilities: Colors
+ *  ---
+ *  Foreground & background color utilities
+ */
+
+@each $color, $val in $palettes {
+  @each $tint, $i in $val {
+
+    /**
+     * text color classes (e.g.: u-color-black-base)
+     */
+    .u-#{$color}-#{$tint} {
+      color: $i;
+    }
+    /**
+     * background color classes (e.g.: u-bgcolor-black-base)
+     */
+    .u-bg#{$color}-#{$tint} {
+      background-color: $i;
+    }
+  }
+}

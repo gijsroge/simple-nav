@@ -8,7 +8,7 @@
             dropdown: 'js-simplenav-dropdown',
             activeclass: 'is-open',
             throttle: 250,
-            collapse: 320,
+            collapse: 0,
             more: $(this).data('simplenav-more'),
             menu: $(this).data('simplenav-menu')
         }, options);
@@ -106,6 +106,9 @@
                 /**
                  * Check if we have to move an item to dropdown
                  * [menu item]--->>[dropdown]
+                 *
+                 * If the menu (ul) is higher than the highest menu item (li)
+                 * than it will move the last menu item
                  */
                 checkMove: function (data) {
                     while (data.menuHeight > data.itemHeight + 5 && data.element.children('li').length > 0 || data.viewportWidth < data.settings.collapse && data.element.children('li').length > 1) {

@@ -1,0 +1,9 @@
+/*
+ *  Utilities: Clearfix
+ *  ---
+ *  Helper class to clear floats from a container
+ */
+
+.u-clearfix {
+  @include clearfix();
+}

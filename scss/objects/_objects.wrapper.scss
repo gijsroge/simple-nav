@@ -1,0 +1,56 @@
+/*
+ *  Object: Wrapper
+ *  ---
+ *  Class to wrap content
+ */
+
+.o-wrapper {
+  max-width: $wrapper-width;
+
+  @media (max-width: $wrapper-width + $global-spacing-unit-large) {
+    padding-left: $global-spacing-unit-large !important;
+    padding-right: $global-spacing-unit-large !important;
+    max-width: 100%;
+  }
+}
+
+
+.o-wrapper--wrapped {
+  max-width: calc(#{$wrapper-width} + 8rem);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/**
+ * Large wrapper variation
+ */
+.o-wrapper--small {
+  max-width: $wrapper-width - ($global-spacing-unit-huge * 2);
+}
+
+
+/**
+ * Large wrapper variation
+ */
+.o-wrapper--large {
+  max-width: $wrapper-width + ($global-spacing-unit-huge * 2);
+}
+
+
+/**
+ * Center wrapper
+ */
+.o-wrapper--center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/**
+ * Wrapper variation for whitespaces on right and left edge of screen
+ */
+.o-wrapper--large-whitespace {
+  padding-left: $global-spacing-unit-large;
+  padding-right: $global-spacing-unit-large;
+}

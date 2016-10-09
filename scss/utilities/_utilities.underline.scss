@@ -1,0 +1,13 @@
+/*
+ *  Utilities: Underline
+ *  ---
+ *  Set a underline
+ */
+.u-underline {
+  @include underline();
+}
+.u-underline-links {
+  a{
+    @include underline();
+  }
+}

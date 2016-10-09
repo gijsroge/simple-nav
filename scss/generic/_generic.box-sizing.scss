@@ -1,0 +1,17 @@
+/*
+ *  Generic: box-sizing
+ *  ---
+ *  Set a better box model as default
+ */
+
+html {
+  box-sizing: border-box;
+}
+
+html * {
+  &,
+  &:before,
+  &:after {
+    box-sizing: inherit;
+  }
+}

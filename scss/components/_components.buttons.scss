@@ -1,0 +1,26 @@
+/*
+ *  Components: Buttons
+ *  ---
+ *  Collection of buttons
+ */
+
+.c-button {
+  $btn-padding: quarter($global-spacing-unit) !default;
+  $btn-border-width: 0 !default;
+
+  display: inline-block;
+  vertical-align: middle;
+  font: inherit;
+  text-align: center;
+  margin: 0;
+  cursor: pointer;
+  overflow: visible;
+  padding: ($btn-padding - $btn-border-width) (quadruple($btn-padding) - $btn-border-width);
+  margin-bottom: $global-spacing-unit-tiny;
+
+  @if ($btn-border-width != 0) {
+    border: $btn-border-width solid black;
+  } @else {
+    border: none; /* [4] */
+  }
+}

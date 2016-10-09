@@ -1,0 +1,21 @@
+/*
+ *  Utilities: Opacity
+ *  ---
+ *  Utility classes for opacity levels
+ */
+
+// Settings
+$opacitys: (
+        O : 0,
+        25 : .25,
+        50 : .5,
+        75 : .75,
+        100 : 1,
+) !default;
+
+// Loop through the weights map and generate classes (e.g: u-bold).
+@each $opacity, $value in $opacitys {
+  .u-opacity-#{$opacity} {
+    opacity: $value !important;
+  }
+}

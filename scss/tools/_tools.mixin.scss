@@ -1,0 +1,134 @@
+/*
+ *  Tools: Mixins
+ *  ---
+ *  Global mixins available to the entire project.
+ *  Define file-specific mixins inside the file to which they relate.
+ */
+
+/**
+ * Generate a font-size and baseline-compatible line-height.
+ *
+ * Usage: @include(font size in pixels, optionaly you can specify a specific line-height);
+ */
+@mixin font-size($font-size, $line-height: auto) {
+
+  font-size: ($font-size / $global-font-size) * 1rem;
+
+  @if ($line-height == 'auto') {
+    line-height: ceil($font-size / $global-line-height) * ($global-line-height / $font-size);
+  } @else {
+    @if (type-of($line-height) == number or $line-height == 'inherit' or $line-height == 'normal') {
+      line-height: $line-height;
+    } @else if ($line-height != 'none' and $line-height != false) {
+      @warn "D’oh! ‘#{$line-height}’ is not a valid value for `line-height`."
+    }
+  }
+}
+
+
+/**
+ * Mixin to create a declaration whose value is a rem unit. Also provide pixel fallback
+ *
+ * Usage: @include rem(padding, 10px);
+ */
+@mixin rem($property, $value) {
+  #{$property}: rem($value);
+}
+
+/*
+ *  Utilities: Underline
+ *  ---
+ *  Usage: @include underline(currentColor, )
+ */
+@mixin underline($color: currentColor, $opacity: .2) {
+  $opacity: $opacity;
+  $color: $color;
+  position: relative;
+  display: inline;
+
+  &:after{
+    content:'';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(to right, $color 0%, $color 100%);
+    background-repeat: repeat-x; // make it horizontal
+    background-position: 0 100%; // change the second value to adjust how far from the top the underline should be
+    background-size: 100% 1px;
+    opacity: $opacity;
+  }
+}
+
+
+/**
+ * Hide elements in an accessible way
+ *
+ * Usage: @include visually-hidden();
+ */
+@mixin visually-hidden {
+  border: 0 !important;
+  clip: rect(0 0 0 0) !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+}
+
+
+/**
+ * Clear floats
+ *
+ * Usage: @include clearfix();
+ */
+@mixin clearfix {
+  *zoom: 1;
+
+  &:before,
+  &:after {
+    display: table;
+    content: '';
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+
+/**
+ * Prevent long URL’s from breaking out of container.
+ *
+ * Usage: @include word-break();
+ */
+@mixin word-break {
+  word-break: break-all;
+  hyphens: auto;
+}
+
+
+/**
+ * Hide text in an accessible way.
+ *
+ * Usage: @include hide-text();
+ */
+@mixin hide-text {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+
+/**
+ * Center align a block-level element
+ */
+@mixin center-block() {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

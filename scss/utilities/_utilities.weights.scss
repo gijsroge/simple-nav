@@ -1,0 +1,21 @@
+/*
+ *  Utilities: Weights
+ *  ---
+ *  Utility classes for font weights
+ */
+
+// Settings
+$weights: (
+        light : $light,
+        normal : $normal,
+        semi-bold : $semi-bold,
+        bold : $bold,
+        extra-bold : $extra-bold
+) !default;
+
+// Loop through the weights map and generate classes (e.g: u-bold).
+@each $weight, $value in $weights {
+  .u-#{$weight} {
+    font-weight: $value !important;
+  }
+}

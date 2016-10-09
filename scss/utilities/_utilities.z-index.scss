@@ -1,0 +1,22 @@
+/*
+ *  Layers
+ *  ---
+ *  Loops trough all z-index levels and generates classes
+ */
+
+// Settings
+$z-indexes: (
+        alpha : 1,
+        beta : 2,
+        gamma : 3,
+        delta : 4,
+        epsilon : 5
+) !default;
+
+
+// Loop through the z-indexes map and generate classes (e.g: u-index-alpha)
+@each $index, $value in $z-indexes {
+  .u-index-#{$index} {
+    z-index: $value;
+  }
+}
