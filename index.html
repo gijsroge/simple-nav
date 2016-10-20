@@ -38,10 +38,9 @@
 <script src="jquery-3.1.0.slim.min.js"></script>
 <script src="src/simple-nav.js"></script>
 <script>
-    var simpleNav = $('.js-simplenav').simplenav();
-    simpleNav.on('toDropdown.simplenav', function(e, element){
-        console.log(element);
-    })
+    var simpleNav = $('.js-simplenav').simplenav({
+        throttle: false,
+    });
 </script>
 </body>
 </html>

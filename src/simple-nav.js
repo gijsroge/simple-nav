@@ -118,8 +118,9 @@
                     }
                 },
                 moveItem: function (element, data) {
+                    var elementWidth = $(element).outerWidth();
                     element.prependTo(data.element.find('.' + data.settings.dropdown));
-                    data.breaks.push({'break': data.viewportWidth});
+                    data.breaks.push({'break': data.viewportWidth, 'width': elementWidth, 'element': $(element).text()});
                     this.checklabel(data);
 
                     /**
@@ -131,11 +132,32 @@
 
 
                 /**
+                 * Get remaining space from parent so we can check
+                 * if we can move an item back to the menu if there is space
+                 *
+                 * @param element
+                 * @returns {number}
+                 */
+                calculateRemainingSpace: function(element){
+                    var childrenWidth = 0;
+                    element.parent().children().not(element).each(function() {
+                        if($(this).is(":visible")){
+                            childrenWidth += $(this).outerWidth(true);
+                        }
+                    });
+                    console.log('parent: '+element.parent().width());
+                    return element.parent().width() - element.outerWidth() - childrenWidth;
+                },
+
+
+                /**
                  * Check if we have to retrieve an item
                  * [dropdown item]--->>[menu]
                  */
                 checkRetrieve: function (data) {
-                    while (data.viewportWidth > data.lowestViewport && data.breaks.length > 0) {
+                    var remainingWidth = this.calculateRemainingSpace(data.element);
+                    var lastitemWidth = data.breaks[0].width;
+                    while (data.viewportWidth > data.lowestViewport && data.breaks.length > 0 || remainingWidth > lastitemWidth  && data.breaks.length > 0) {
                         this.retrieveItem(data);
                         this.checkVars(data);
                     }
@@ -252,7 +274,7 @@
                 check: function (data) {
                     this.checkVars(data);
                     this.checkMove(data);
-                    this.checkRetrieve(data);
+                    if(data.breaks.length > 0) this.checkRetrieve(data);
                     this.checkDropdown(data);
                     this.checklabel(data);
                     this.checkVars(data);
