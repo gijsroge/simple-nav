@@ -14,14 +14,14 @@
             menu: $(this).data('simplenav-menu') ? $(this).data('simplenav-menu') :  'menu'
         }, options);
 
+        var instance = 0;
         return this.each(function(){
             var _this = this;
             var app = {
                 init: function () {
-                    var instance = 0;
 
                     // Test if simple nav is binded to ul before continuing.
-                    var test = $(_this).is('ul');
+                    var test = $(_this).is('ul') || $(_this).is('ol');
                     if (!test) {
                         console.warn('[!] wrong element, please bind simplenav to ul\'s only');
                         return;
