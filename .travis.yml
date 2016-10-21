@@ -1,7 +1,5 @@
-before_script:
-  - sudo npm install -g gulp
-
 language: node_js
-
 node_js:
   - 4.2.6
+before_script:
+  - npm install -g gulp
