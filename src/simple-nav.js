@@ -6,44 +6,43 @@
             toggle: 'js-simplenav-toggle',
             toggleWrapper: 'js-simplenav-wrapper',
             dropdown: 'js-simplenav-dropdown',
+            parent: '.c-header',
             activeclass: 'is-open',
             throttle: 250,
             collapse: 0,
-            more: $(this).data('simplenav-more'),
-            menu: $(this).data('simplenav-menu')
+            more: $(this).data('simplenav-more') ? $(this).data('simplenav-more') :  'more',
+            menu: $(this).data('simplenav-menu') ? $(this).data('simplenav-menu') :  'menu'
         }, options);
 
+        var instance = 0;
         return this.each(function(){
-
+            var _this = this;
             var app = {
                 init: function () {
-                    var _this = this;
-                    var instance = 0;
-                    el.each(function () {
 
-                        // Test if simple nav is binded to ul before continuing.
-                        var test = $(this).is('ul');
-                        if (!test) {
-                            console.warn('[!] wrong element, please bind simplenav to ul\'s only');
-                            return;
-                        }
+                    // Test if simple nav is binded to ul or ol before continuing.
+                    var test = $(_this).is('ul') || $(_this).is('ol');
+                    if (!test) {
+                        console.warn('[!] wrong element, please bind simplenav to ul\'s only');
+                        return;
+                    }
 
-                        /**
-                         * Set data object to store settings & breakpoints
-                         * @type {{}}
-                         */
-                        var data = {};
-                        data.instance = instance++;
-                        data.settings = settings;
-                        data.element = $(this);
-                        data.breaks = [];
+                    /**
+                     * Set data object to store settings & breakpoints
+                     * @type {{}}
+                     */
+                    var data = {};
+                    data.instance = instance++;
+                    data.settings = settings;
+                    data.element = $(_this);
+                    data.breaks = [];
 
-                        _this.prepareHtml(data);
-                        data.dropdown = $(this).find('.' + data.settings.dropdown);
-                        _this.check(data);
-                        _this.toggleDropdown(data);
-                        _this.bindResize(data);
-                    });
+                    this.prepareHtml(data);
+                    data.dropdown = $(_this).find('.' + data.settings.dropdown);
+                    this.check(data);
+                    this.toggleDropdown(data);
+                    this.bindResize(data);
+
                 },
 
 
@@ -54,11 +53,11 @@
                 prepareHtml: function (data) {
                     if (data.element.find(data.settings.toggle).length) return;
                     data.element.append('' +
-                        '<li class="' + data.settings.toggleWrapper + '" style="display:none;">' +
-                        '<button id="menu-button-' + data.instance + '" aria-label="Menu" aria-expanded="false" aria-controls="menu-' + data.instance + '" type="button" class="' + data.settings.toggle + '"><span class="js-simplenav-label">' + data.settings.more + '</span></button>' +
-                        '<ul id="menu-' + data.instance + '" aria-hidden="true" aria-labelledby="menu-button-' + data.instance + '" style="position: absolute;" class="' + data.settings.dropdown + '"></ul>' +
-                        '</li>' +
-                        '');
+                      '<li class="' + data.settings.toggleWrapper + '" style="display:none;">' +
+                      '<button id="menu-button-' + data.instance + '" aria-label="Menu" aria-expanded="false" aria-controls="menu-' + data.instance + '" type="button" class="' + data.settings.toggle + '"><span class="js-simplenav-label">' + data.settings.more + '</span></button>' +
+                      '<ul id="menu-' + data.instance + '" aria-hidden="true" aria-labelledby="menu-button-' + data.instance + '" style="position: absolute;" class="' + data.settings.dropdown + '"></ul>' +
+                      '</li>' +
+                      '');
                 },
 
 
@@ -138,14 +137,13 @@
                  * @param element
                  * @returns {number}
                  */
-                calculateRemainingSpace: function(element){
+                calculateRemainingSpace: function(data, element){
                     var childrenWidth = 0;
-                    element.parent().children().not(element).each(function() {
+                    element.closest(data.settings.parent).children().not(element).each(function() {
                         if($(this).is(":visible")){
                             childrenWidth += $(this).outerWidth(true);
                         }
                     });
-                    console.log('parent: '+element.parent().width());
                     return element.parent().width() - element.outerWidth() - childrenWidth;
                 },
 
@@ -155,7 +153,7 @@
                  * [dropdown item]--->>[menu]
                  */
                 checkRetrieve: function (data) {
-                    var remainingWidth = this.calculateRemainingSpace(data.element);
+                    var remainingWidth = this.calculateRemainingSpace(data, data.element);
                     var lastitemWidth = data.breaks[0].width;
                     while (data.viewportWidth > data.lowestViewport && data.breaks.length > 0 || remainingWidth > lastitemWidth  && data.breaks.length > 0) {
                         this.retrieveItem(data);
@@ -189,7 +187,7 @@
                  */
                 toggleDropdown: function (data) {
                     var _this = this;
-                    $('.' + data.settings.toggle).on('click', function () {
+                    $(data.element).find('.' + data.settings.toggle).on('click', function () {
                         if ($(this).hasClass(data.settings.activeclass)) {
                             _this.closeDropdown(data);
                         } else {
@@ -220,11 +218,11 @@
 
                         // Add active classes
                         $(element)
-                            .addClass(data.settings.activeclass)
-                            .closest('.' + data.settings.toggleWrapper)
-                            .addClass(data.settings.activeclass)
-                            .find('.' + data.settings.dropdown)
-                            .addClass(data.settings.activeclass);
+                          .addClass(data.settings.activeclass)
+                          .closest('.' + data.settings.toggleWrapper)
+                          .addClass(data.settings.activeclass)
+                          .find('.' + data.settings.dropdown)
+                          .addClass(data.settings.activeclass);
                     };
 
                     /**
@@ -260,7 +258,7 @@
                  * @param data
                  */
                 checklabel: function (data) {
-                    if ($(window).width() < data.settings.collapse || data.element.children().length === 0) {
+                    if ($(window).width() < data.settings.collapse || data.element.children().length === 1) {
                         data.element.find('.js-simplenav-label').html(data.settings.menu);
                     } else {
                         data.element.find('.js-simplenav-label').html(data.settings.more);
