@@ -20,7 +20,7 @@
             var app = {
                 init: function () {
 
-                    // Test if simple nav is binded to ul before continuing.
+                    // Test if simple nav is binded to ul or ol before continuing.
                     var test = $(_this).is('ul') || $(_this).is('ol');
                     if (!test) {
                         console.warn('[!] wrong element, please bind simplenav to ul\'s only');
