@@ -258,7 +258,7 @@
                  * @param data
                  */
                 checklabel: function (data) {
-                    if ($(window).width() < data.settings.collapse || data.element.children().length === 0) {
+                    if ($(window).width() < data.settings.collapse || data.element.children().length === 1) {
                         data.element.find('.js-simplenav-label').html(data.settings.menu);
                     } else {
                         data.element.find('.js-simplenav-label').html(data.settings.more);
