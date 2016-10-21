@@ -4,7 +4,7 @@
   "description": "",
   "main": "./src/simple-nav.js",
   "scripts": {
-    "test": "node ./node_modules/jshint/bin/jshint src/simple-nav.js"
+    "test": "node ./node_modules/jshint/bin/jshint src/simple-nav.js && gulp test --verbose --force"
   },
   "repository": {
     "type": "git",
