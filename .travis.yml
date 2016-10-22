@@ -3,3 +3,7 @@ node_js:
   - 4.2.6
 before_script:
   - npm install -g gulp
+script:
+  - "bundle exec rake knapsack:rspec"
+  - "bundle exec rake knapsack:cucumber"
+  - "bundle exec rake knapsack:minitest"

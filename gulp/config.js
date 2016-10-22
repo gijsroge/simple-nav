@@ -9,12 +9,12 @@ module.exports = {
    * Scss settings
    */
   scss: {
-    src: path + 'src/simple-nav.scss',
-    glob: path + 'src/**/*.scss',
+    src: path + 'demo/simple-nav.scss',
+    glob: path + 'demo/**/*.scss',
     settings: {
       outputStyle: 'expanded'
     },
-    dest: path + 'css/',
+    dest: path + 'demo/css/',
     prefix: [
       'last 2 version',
       '> 1%',
@@ -42,7 +42,7 @@ module.exports = {
   browsersync: {
     server: {
       baseDir: path,
-      index: "index.html"
+      index: "demo/index.html"
     },
     notify: false
   },

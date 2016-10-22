@@ -21,7 +21,4 @@ gulp.task('watch', ['default', 'browsersync'], function () {
   watch(config.js.glob, function (event) {
     gulp.start('browsersyncReload');
   });
-  watch(config.svg.src, function (event) {
-    gulp.start('svg');
-  });
 });

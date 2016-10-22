@@ -1,7 +1,3 @@
-function test(string) {
-    return string;
-};
-
-QUnit.test('test()', function(assert) {
-    assert.equal(test("string"), "string", "function outputs string correctly")
+QUnit.test('global test', function(assert) {
+    assert.ok($('.js-simple-nav').simplenav(), 'simplenav function works')
 });
