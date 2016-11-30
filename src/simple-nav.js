@@ -314,7 +314,6 @@
             app.checklabel(_data);
             app.checkVars(_data);
             app.checkMove(_data);
-            console.log(_data);
         },
 
 
