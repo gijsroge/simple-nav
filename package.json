@@ -1,6 +1,6 @@
 {
   "name": "simple-responsive-nav",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "main": "./src/simple-nav.js",
   "scripts": {

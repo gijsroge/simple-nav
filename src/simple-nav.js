@@ -38,7 +38,7 @@
                     '');
             },
 
-            trapFocus: function (data) {
+            trapFocus: function(data){
                 // Set last focused element so we can re-focus on close
                 lastfocus = document.activeElement;
 
@@ -49,16 +49,13 @@
                 // store first focusable element for future reference
                 data.firstFocusElement = links.eq(1);
 
-                // Set focus to first focusable element
-                data.firstFocusElement.focus();
-
                 /**
                  * Based on http://dylanb.github.io/javascripts/periodic-1.1.js
                  */
-                data.element.find('.js-simplenav-dropdown').on('keydown', function (e) {
+                data.element.find('.js-simplenav-wrapper').on('keydown', function (e) {
                     var cancel = false;
 
-                    if (e.ctrlKey || e.metaKey || e.altKey) {
+                    if (e.ctrlKey || e.metaKey || e.altKey || !data.open) {
                         return;
                     }
 
@@ -84,6 +81,9 @@
                         e.preventDefault();
                     }
                 });
+
+                // Set focus to first focusable element
+                data.firstFocusElement.focus();
             },
 
 
@@ -251,13 +251,12 @@
                  * @param element
                  */
                 this.openDropdown = function (data, element) {
-                    // Mark instance as open
+                    // mark instance as open
                     data.open = true;
 
                     // Toggle aria attributes
                     data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'true');
                     data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'false');
-                    app.trapFocus(data);
 
                     // Add active classes
                     $(element)
@@ -266,27 +265,27 @@
                         .addClass(data.settings.activeclass)
                         .find('.js-simplenav-dropdown')
                         .addClass(data.settings.activeclass);
+
+                    // Set focus loop inside dropdown content
+                    app.trapFocus(data);
+
                 };
 
                 /**
                  * Close dropdown
                  */
                 this.closeDropdown = function (data) {
-                    if (data.open) {
-                        // Toggle aria attributes
-                        data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'false');
-                        data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'true');
-                        if (lastfocus) {
-                            lastfocus.focus()
-                        }
-                        ;
 
-                        // Toggle classes
-                        $(data.element).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
+                    // Toggle aria attributes
+                    data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'false');
+                    data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'true');
+                    if (lastfocus) {lastfocus.focus()};
 
-                        // Mark instance as closed
-                        data.open = false;
-                    }
+                    // Toggle classes
+                    $(data.element).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
+
+                    // mark instance as closed
+                    data.open = false;
                 };
             },
 
