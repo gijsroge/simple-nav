@@ -4,6 +4,7 @@
         var instance = 0;
         var simplenav = this;
         var globalData = [];
+        var lastfocus;
 
         var settings = $.extend({
             buttonClasses: '',
@@ -35,6 +36,54 @@
                     '<ul id="menu-' + instance + '" aria-hidden="true" aria-labelledby="menu-button-' + instance + '" style="position: absolute;" class="js-simplenav-dropdown ' + settings.dropdownClasses + '"></ul>' +
                     '</li>' +
                     '');
+            },
+
+            trapFocus: function(data){
+                // Set last focused element so we can re-focus on close
+                lastfocus = document.activeElement;
+
+                // All focusable elements
+                // From: https://github.com/edenspiekermann/a11y-dialog/blob/master/a11y-dialog.js#L31
+                var links = data.element.find('.js-simplenav-wrapper').find('a[href]:visible, area[href]:visible, input:not([disabled]):visible, select:not([disabled]):visible, textarea:not([disabled]):visible, button:not([disabled]):visible, iframe:visible, object:visible, embed:visible, [contenteditable]:visible, [tabindex]:not([tabindex^="-"]):visible');
+
+                // store first focusable element for future reference
+                data.firstFocusElement = links.eq(1);
+
+                // Set focus to first focusable element
+                data.firstFocusElement.focus();
+
+                /**
+                 * Based on http://dylanb.github.io/javascripts/periodic-1.1.js
+                 */
+                data.element.find('.js-simplenav-dropdown').on('keydown', function (e) {
+                    var cancel = false;
+
+                    if (e.ctrlKey || e.metaKey || e.altKey) {
+                        return;
+                    }
+
+                    switch (e.which) {
+                        case 27: // ESC
+                            cancel = true;
+                            break;
+                        case 9: // TAB
+                            if (e.shiftKey) {
+                                if (e.target === links[0]) {
+                                    links[links.length - 1].focus();
+                                    cancel = true;
+                                }
+                            } else {
+                                if (e.target === links[links.length - 1]) {
+                                    links[0].focus();
+                                    cancel = true;
+                                }
+                            }
+                            break;
+                    }
+                    if (cancel) {
+                        e.preventDefault();
+                    }
+                });
             },
 
 
@@ -207,7 +256,7 @@
                     data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'true');
                     data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'false');
                     data.element.find('.js-simplenav-wrapper').attr('tabindex', '0');
-                    data.element.find('.js-simplenav-dropdown').children('li:first-child').find('a').focus();
+                    app.trapFocus(data);
 
                     // Add active classes
                     $(element)
@@ -224,8 +273,9 @@
                 this.closeDropdown = function (data) {
 
                     // Toggle aria attributes
-                    $('.js-simplenav-toggle').attr('aria-expanded', 'false');
-                    $('.js-simplenav-dropdown').attr('aria-hidden', 'true');
+                    data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'false');
+                    data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'true');
+                    lastfocus.focus();
 
                     // Toggle classes
                     $(data.element).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
