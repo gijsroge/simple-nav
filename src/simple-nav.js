@@ -6,9 +6,9 @@
         var globalData = [];
 
         var settings = $.extend({
-            toggle: 'js-simplenav-toggle',
-            toggleWrapper: 'js-simplenav-wrapper',
-            dropdown: 'js-simplenav-dropdown',
+            buttonClasses: '',
+            wrapperClasses: '',
+            dropdownClasses: '',
             parent: '.c-header',
             activeclass: 'is-open',
             throttle: 250,
@@ -28,11 +28,11 @@
             prepareHtml: function ($this, instance) {
                 var setting = globalData[instance].settings;
                 $this.attr('data-simplenav-instance', instance);
-                if ($this.find(settings.toggle).length) return;
+                if ($this.find('.js-simplenav-toggle').length) return;
                 $this.append('' +
-                    '<li class="' + settings.toggleWrapper + '" style="display:none;">' +
-                    '<button id="menu-button-' + instance + '" aria-label="Menu" aria-expanded="false" aria-controls="menu-' + instance + '" type="button" class="' + settings.toggle + '"><span class="js-simplenav-label">' + settings.more + '</span></button>' +
-                    '<ul id="menu-' + instance + '" aria-hidden="true" aria-labelledby="menu-button-' + instance + '" style="position: absolute;" class="' + settings.dropdown + '"></ul>' +
+                    '<li class="js-simplenav-wrapper ' + settings.wrapperClasses + '" style="display:none;">' +
+                    '<button id="menu-button-' + instance + '" aria-label="Menu" aria-expanded="false" aria-controls="menu-' + instance + '" type="button" class="js-simplenav-toggle ' + settings.buttonClasses + '"><span class="js-simplenav-label">' + settings.more + '</span></button>' +
+                    '<ul id="menu-' + instance + '" aria-hidden="true" aria-labelledby="menu-button-' + instance + '" style="position: absolute;" class="js-simplenav-dropdown ' + settings.dropdownClasses + '"></ul>' +
                     '</li>' +
                     '');
             },
@@ -120,7 +120,7 @@
                 var menuItem = data.element.children('li:nth-last-child(2)'); // second to last item
                 var elementWidth = $(menuItem).outerWidth();
 
-                menuItem.prependTo(data.element.find('.' + data.settings.dropdown));
+                menuItem.prependTo(data.element.find('.js-simplenav-dropdown'));
                 data.breaks.push({'break': data.viewportWidth, 'width': elementWidth});
                 app.checklabel(data);
 
@@ -148,7 +148,7 @@
                  * Recheck to make sure that not everything is moved back because they had the same
                  * breakpoint because of the collapse breakpoint setting was larger than the viewport.
                  */
-                if (data.element.find('.' + data.settings.dropdown).children().length === 0) {
+                if (data.element.find('.js-simplenav-dropdown').children().length === 0) {
                     this.checkMove(data);
                 }
             },
@@ -160,7 +160,7 @@
              * @param data
              */
             retrieveItem: function (data) {
-                var item = data.element.find('.' + data.settings.dropdown).children('li:first-child');
+                var item = data.element.find('.js-simplenav-dropdown').children('li:first-child');
                 item.insertBefore(data.element.children('li:last-child'));
                 data.breaks.pop();
                 this.checklabel(data);
@@ -180,7 +180,7 @@
                 var _this = this;
                 var data = app.getDataFromInstance($this);
 
-                $(data.element).find('.' + data.settings.toggle).on('click', function () {
+                $(data.element).find('.js-simplenav-toggle').on('click', function () {
                     if ($(this).hasClass(data.settings.activeclass)) {
                         _this.closeDropdown(data);
                     } else {
@@ -188,7 +188,7 @@
                     }
                 });
                 $(document).on('click', function (e) {
-                    if (!$(e.target).closest('.' + data.settings.toggleWrapper).length) {
+                    if (!$(e.target).closest('.js-simplenav-wrapper').length) {
                         _this.closeDropdown(data);
                     }
                 });
@@ -204,17 +204,17 @@
                 this.openDropdown = function (data, element) {
 
                     // Toggle aria attributes
-                    data.element.find('.' + data.settings.toggle).attr('aria-expanded', 'true');
-                    data.element.find('.' + data.settings.dropdown).attr('aria-hidden', 'false');
-                    data.element.find('.' + data.settings.toggleWrapper).attr('tabindex', '0');
-                    data.element.find('.' + data.settings.dropdown).children('li:first-child').find('a').focus();
+                    data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'true');
+                    data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'false');
+                    data.element.find('.js-simplenav-wrapper').attr('tabindex', '0');
+                    data.element.find('.js-simplenav-dropdown').children('li:first-child').find('a').focus();
 
                     // Add active classes
                     $(element)
                         .addClass(data.settings.activeclass)
-                        .closest('.' + data.settings.toggleWrapper)
+                        .closest('.js-simplenav-wrapper')
                         .addClass(data.settings.activeclass)
-                        .find('.' + data.settings.dropdown)
+                        .find('.js-simplenav-dropdown')
                         .addClass(data.settings.activeclass);
                 };
 
@@ -224,8 +224,8 @@
                 this.closeDropdown = function (data) {
 
                     // Toggle aria attributes
-                    $('.' + data.settings.toggle).attr('aria-expanded', 'false');
-                    $('.' + data.settings.dropdown).attr('aria-hidden', 'true');
+                    $('.js-simplenav-toggle').attr('aria-expanded', 'false');
+                    $('.js-simplenav-dropdown').attr('aria-hidden', 'true');
 
                     // Toggle classes
                     $(data.element).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
@@ -239,9 +239,9 @@
              */
             checkDropdown: function (data) {
                 if (data.breaks.length > 0) {
-                    data.element.find('.' + data.settings.toggleWrapper).show();
+                    data.element.find('.js-simplenav-wrapper').show();
                 } else {
-                    data.element.find('.' + data.settings.toggleWrapper).hide();
+                    data.element.find('.js-simplenav-wrapper').hide();
                 }
             },
 
