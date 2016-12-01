@@ -255,7 +255,6 @@
                     // Toggle aria attributes
                     data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'true');
                     data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'false');
-                    data.element.find('.js-simplenav-wrapper').attr('tabindex', '0');
                     app.trapFocus(data);
 
                     // Add active classes
