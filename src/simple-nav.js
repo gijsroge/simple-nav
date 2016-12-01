@@ -38,7 +38,7 @@
                     '');
             },
 
-            trapFocus: function(data){
+            trapFocus: function (data) {
                 // Set last focused element so we can re-focus on close
                 lastfocus = document.activeElement;
 
@@ -251,6 +251,8 @@
                  * @param element
                  */
                 this.openDropdown = function (data, element) {
+                    // Mark instance as open
+                    data.open = true;
 
                     // Toggle aria attributes
                     data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'true');
@@ -270,14 +272,21 @@
                  * Close dropdown
                  */
                 this.closeDropdown = function (data) {
+                    if (data.open) {
+                        // Toggle aria attributes
+                        data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'false');
+                        data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'true');
+                        if (lastfocus) {
+                            lastfocus.focus()
+                        }
+                        ;
 
-                    // Toggle aria attributes
-                    data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'false');
-                    data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'true');
-                    if (lastfocus) {lastfocus.focus()};
+                        // Toggle classes
+                        $(data.element).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
 
-                    // Toggle classes
-                    $(data.element).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
+                        // Mark instance as closed
+                        data.open = false;
+                    }
                 };
             },
 
@@ -366,35 +375,36 @@
         },
 
 
-        this.each(function () {
-            // Test if simple nav is binded to ul or ol before continuing.
-            var test = $(this).is('ul') || $(this).is('ol');
-            if (!test) {
-                console.warn('[!] wrong element, please bind simplenav to ul\'s only');
-                return;
-            }
+            this.each(function () {
+                // Test if simple nav is binded to ul or ol before continuing.
+                var test = $(this).is('ul') || $(this).is('ol');
+                if (!test) {
+                    console.warn('[!] wrong element, please bind simplenav to ul\'s only');
+                    return;
+                }
 
-            /**
-             * Set data object to store settings & breakpoints
-             * @type {{}}
-             */
+                /**
+                 * Set data object to store settings & breakpoints
+                 * @type {{}}
+                 */
 
 
-            globalData.push({
-                instance: instance,
-                settings: settings,
-                element: $(this),
-                breaks: []
+                globalData.push({
+                    instance: instance,
+                    open: false,
+                    settings: settings,
+                    element: $(this),
+                    breaks: []
+                });
+
+                app.prepareHtml($(this), instance);
+                simplenav.check($(this));
+                app.toggleDropdown($(this));
+                app.bindResize($(this));
+
+                instance++;
+
             });
-
-            app.prepareHtml($(this), instance);
-            simplenav.check($(this));
-            app.toggleDropdown($(this));
-            app.bindResize($(this));
-
-            instance++;
-
-        });
 
         return this;
     };
