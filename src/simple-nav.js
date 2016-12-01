@@ -275,7 +275,7 @@
                     // Toggle aria attributes
                     data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'false');
                     data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'true');
-                    lastfocus.focus();
+                    if (lastfocus) {lastfocus.focus()};
 
                     // Toggle classes
                     $(data.element).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
