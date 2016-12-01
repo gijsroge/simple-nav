@@ -49,6 +49,9 @@
                 // store first focusable element for future reference
                 data.firstFocusElement = links.eq(1);
 
+                // Set focus to first focusable element
+                data.firstFocusElement.focus();
+
                 /**
                  * Based on http://dylanb.github.io/javascripts/periodic-1.1.js
                  */
@@ -81,9 +84,6 @@
                         e.preventDefault();
                     }
                 });
-
-                // Set focus to first focusable element
-                data.firstFocusElement.focus();
             },
 
 
@@ -275,17 +275,18 @@
                  * Close dropdown
                  */
                 this.closeDropdown = function (data) {
+                    if(data.open){
+                        // Toggle aria attributes
+                        data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'false');
+                        data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'true');
+                        if (lastfocus) {lastfocus.focus()};
 
-                    // Toggle aria attributes
-                    data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'false');
-                    data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'true');
-                    if (lastfocus) {lastfocus.focus()};
+                        // Toggle classes
+                        $(data.element).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
 
-                    // Toggle classes
-                    $(data.element).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
-
-                    // mark instance as closed
-                    data.open = false;
+                        // mark instance as closed
+                        data.open = false;
+                    }
                 };
             },
 
