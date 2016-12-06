@@ -38,7 +38,7 @@
                     '');
             },
 
-            trapFocus: function(data){
+            trapFocus: function (data) {
                 // Set last focused element so we can re-focus on close
                 lastfocus = document.activeElement;
 
@@ -275,11 +275,13 @@
                  * Close dropdown
                  */
                 this.closeDropdown = function (data) {
-                    if(data.open){
+                    if (data.open) {
                         // Toggle aria attributes
                         data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'false');
                         data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'true');
-                        if (lastfocus) {lastfocus.focus()};
+                        if (lastfocus) {
+                            lastfocus.focus();
+                        }
 
                         // Toggle classes
                         $(data.element).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
@@ -350,7 +352,7 @@
              * @param $this
              */
             bindResize: function ($this) {
-                var data = app.getDataFromInstance($this)
+                var data = app.getDataFromInstance($this);
                 // Bind resize event to window object
                 var check = this.debounce(function () {
                     simplenav.check($this);
@@ -372,7 +374,7 @@
             app.checklabel(_data);
             app.checkVars(_data);
             app.checkMove(_data);
-        },
+        };
 
 
             this.each(function () {
