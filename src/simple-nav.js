@@ -284,7 +284,7 @@
                     // Triger custom open event
                     setTimeout(function () {
                         $(element).trigger("simplenav:open");
-                    }, 1)
+                    }, 1);
                 };
 
                 /**
