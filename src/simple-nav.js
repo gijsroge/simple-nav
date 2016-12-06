@@ -376,7 +376,6 @@
             app.checkMove(_data);
         };
 
-
             this.each(function () {
                 // Test if simple nav is binded to ul or ol before continuing.
                 var test = $(this).is('ul') || $(this).is('ol');
