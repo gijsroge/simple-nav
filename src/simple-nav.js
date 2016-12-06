@@ -15,7 +15,9 @@
             throttle: 250,
             collapse: 0,
             more: $(this).data('simplenav-more') ? $(this).data('simplenav-more') : 'more',
-            menu: $(this).data('simplenav-menu') ? $(this).data('simplenav-menu') : 'menu'
+            menu: $(this).data('simplenav-menu') ? $(this).data('simplenav-menu') : 'menu',
+            done: function () {
+            }
         }, options);
 
 
@@ -172,6 +174,7 @@
                 menuItem.prependTo(data.element.find('.js-simplenav-dropdown'));
                 data.breaks.push({'break': data.viewportWidth, 'width': elementWidth});
                 app.checklabel(data);
+                app.checkDropdown(data);
 
                 /**
                  * Callback for when item is moved to dropdown
@@ -189,8 +192,9 @@
                 var lastitemWidth = data.breaks[0].width;
 
                 while (data.viewportWidth > data.lowestViewport && data.breaks.length > 0 || remainingWidth > lastitemWidth && data.breaks.length > 0) {
-                    app.retrieveItem(data);
+                    app.retrieveItem(data.element);
                     app.checkVars(data);
+                    app.checkDropdown(data);
                 }
 
                 /**
@@ -206,9 +210,10 @@
              * Retrieve item
              * [dropdown item]--->>[menu]
              *
-             * @param data
+             * @param $this
              */
-            retrieveItem: function (data) {
+            retrieveItem: function ($this) {
+                var data = app.getDataFromInstance($this);
                 var item = data.element.find('.js-simplenav-dropdown').children('li:first-child');
                 item.insertBefore(data.element.children('li:last-child'));
                 data.breaks.pop();
@@ -230,10 +235,11 @@
                 var data = app.getDataFromInstance($this);
 
                 $(data.element).find('.js-simplenav-toggle').on('click', function () {
+                    console.log('toggle');
                     if ($(this).hasClass(data.settings.activeclass)) {
                         _this.closeDropdown(data);
                     } else {
-                        _this.openDropdown(data, $(this));
+                        _this.openDropdown($this);
                     }
                 });
                 $(document).on('click', function (e) {
@@ -250,7 +256,9 @@
                  *
                  * @param element
                  */
-                this.openDropdown = function (data, element) {
+                this.openDropdown = function (element) {
+                    var data = app.getDataFromInstance(element);
+
                     // mark instance as open
                     data.open = true;
 
@@ -261,14 +269,22 @@
                     // Add active classes
                     $(element)
                         .addClass(data.settings.activeclass)
-                        .closest('.js-simplenav-wrapper')
-                        .addClass(data.settings.activeclass)
+                        .find('.js-simplenav-wrapper')
+                        .addClass(data.settings.activeclass);
+                    $(element)
                         .find('.js-simplenav-dropdown')
+                        .addClass(data.settings.activeclass);
+                    $(element)
+                        .find('.js-simplenav-toggle')
                         .addClass(data.settings.activeclass);
 
                     // Set focus loop inside dropdown content
                     app.trapFocus(data);
 
+                    // Triger custom open event
+                    setTimeout(function () {
+                        $(element).trigger("simplenav:open");
+                    }, 1)
                 };
 
                 /**
@@ -284,7 +300,7 @@
                         }
 
                         // Toggle classes
-                        $(data.element).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
+                        $(data.element).removeClass(data.settings.activeclass).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
 
                         // mark instance as closed
                         data.open = false;
@@ -376,36 +392,42 @@
             app.checkMove(_data);
         };
 
-            this.each(function () {
-                // Test if simple nav is binded to ul or ol before continuing.
-                var test = $(this).is('ul') || $(this).is('ol');
-                if (!test) {
-                    console.warn('[!] wrong element, please bind simplenav to ul\'s only');
-                    return;
-                }
+        this.app = app;
 
-                /**
-                 * Set data object to store settings & breakpoints
-                 * @type {{}}
-                 */
+        this.each(function () {
+            // Test if simple nav is binded to ul or ol before continuing.
+            var test = $(this).is('ul') || $(this).is('ol');
+            if (!test) {
+                console.warn('[!] wrong element, please bind simplenav to ul\'s only');
+                return;
+            }
+
+            /**
+             * Set data object to store settings & breakpoints
+             * @type {{}}
+             */
 
 
-                globalData.push({
-                    instance: instance,
-                    open: false,
-                    settings: settings,
-                    element: $(this),
-                    breaks: []
-                });
-
-                app.prepareHtml($(this), instance);
-                simplenav.check($(this));
-                app.toggleDropdown($(this));
-                app.bindResize($(this));
-
-                instance++;
-
+            globalData.push({
+                instance: instance,
+                open: false,
+                settings: settings,
+                element: $(this),
+                breaks: []
             });
+
+            this.globalData = globalData;
+
+            app.prepareHtml($(this), instance);
+            simplenav.check($(this));
+            app.toggleDropdown($(this));
+            app.bindResize($(this));
+
+            instance++;
+
+            // Done callback
+            settings.done.call(this);
+        });
 
         return this;
     };

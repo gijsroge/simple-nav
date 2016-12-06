@@ -8,6 +8,21 @@
     <script type="text/javascript" src="./../node_modules/qunitjs/qunit/qunit.js"></script>
     <script type="text/javascript" src="./../src/simple-nav.js"></script>
     <script type="text/javascript" src="./tests.js"></script>
+
+    <style>
+        .c-nav{
+            width:100%;
+            display: block;
+        }
+        
+        .c-nav li{
+            display: inline-block;
+        }
+
+        #qunit-fixture{
+            position: static !important;
+        }
+    </style>
 </head>
 <body>
 
@@ -15,7 +30,7 @@
 <ol id="qunit-tests"></ol>
 <div id="qunit-fixture">
 
-    <ul class="js-simplenav o-list-inline" data-simplenav-menu="menu" data-simplenav-more="more">
+    <ul class="js-simplenav c-nav o-list-inline" data-simplenav-menu="menu" data-simplenav-more="more">
         <li><a href="#">test1</a></li>
         <li><a href="#">test2</a></li>
         <li><a href="#">test3</a></li>
