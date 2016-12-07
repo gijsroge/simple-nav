@@ -20,7 +20,6 @@
             }
         }, options);
 
-
         var app = {
             /**
              * Prepare dropdown html
@@ -99,6 +98,7 @@
                 data.lowestViewport = this.getLowestViewportBreak(data.breaks);
             },
 
+
             /**
              * Retrieve lowest item
              *
@@ -129,6 +129,7 @@
                 return maxHeight;
             },
 
+
             /**
              * Get remaining space from parent so we can check
              * if we can move an item back to the menu if there is space
@@ -146,6 +147,7 @@
                 return element.parent().width() - element.outerWidth() - childrenWidth;
             },
 
+
             /**
              * Check if we have to move an item to dropdown
              * [menu item]--->>[dropdown]
@@ -159,6 +161,7 @@
                     app.checkVars(data);
                 }
             },
+
 
             /**
              * Move item
@@ -183,6 +186,7 @@
                 data.element.trigger("toDropdown.simplenav", [menuItem]);
             },
 
+
             /**
              * Check if we have to retrieve an item
              * [dropdown item]--->>[menu]
@@ -206,6 +210,7 @@
                 }
             },
 
+
             /**
              * Retrieve item
              * [dropdown item]--->>[menu]
@@ -226,6 +231,7 @@
                 data.element.trigger("toMenu.simplenav", [item]);
             },
 
+
             /**
              * Toggle dropdown
              * @param $this
@@ -235,7 +241,6 @@
                 var data = app.getDataFromInstance($this);
 
                 $(data.element).find('.js-simplenav-toggle').on('click', function () {
-                    console.log('toggle');
                     if ($(this).hasClass(data.settings.activeclass)) {
                         _this.closeDropdown(data);
                     } else {
@@ -250,6 +255,7 @@
                 $(document).keyup(function (e) {
                     if (e.keyCode === 27) _this.closeDropdown(data);
                 });
+
 
                 /**
                  * Open dropdown
@@ -286,6 +292,7 @@
                         $(element).trigger("simplenav:open");
                     }, 1);
                 };
+
 
                 /**
                  * Close dropdown
@@ -339,6 +346,7 @@
                 return globalData[instance];
             },
 
+
             /**
              * Debounced resize for optimized resize event
              *
@@ -377,6 +385,7 @@
             }
         };
 
+
         /**
          * Main logic check
          * @param $this
@@ -392,8 +401,10 @@
             app.checkMove(_data);
         };
 
+        // Expose our app
         this.app = app;
 
+        // Expose each instant
         this.each(function () {
             // Test if simple nav is binded to ul or ol before continuing.
             var test = $(this).is('ul') || $(this).is('ol');
@@ -406,8 +417,6 @@
              * Set data object to store settings & breakpoints
              * @type {{}}
              */
-
-
             globalData.push({
                 instance: instance,
                 open: false,
@@ -416,6 +425,7 @@
                 breaks: []
             });
 
+            // Expose each instance its data
             this.globalData = globalData;
 
             app.prepareHtml($(this), instance);
@@ -423,6 +433,7 @@
             app.toggleDropdown($(this));
             app.bindResize($(this));
 
+            // Increment instance id
             instance++;
 
             // Done callback

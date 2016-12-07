@@ -57,27 +57,6 @@ QUnit.test('test update varialbes', function (assert) {
     assert.ok(test, 'done callback fired');
 });
 
-/*QUnit.test('check if first dropdown item gets focus on open', function (assert) {
-    // Number of tests
-    assert.expect(1);
-
-    var simplenav = $('.js-simplenav').simplenav();
-
-    // Move items in dropdown so we an open dropdown
-    simplenav.app.moveItem(simplenav);
-    simplenav.app.moveItem(simplenav);
-
-    // Open dropdown to fire callback
-    simplenav.app.openDropdown(simplenav);
-
-    // Done callback
-    var done = assert.async();
-    simplenav.on("simplenav:open", function () {
-        assert.ok(simplenav.find('.js-simplenav-dropdown').children().first().find('a').is(':focus'), "Element was focused");
-        done();
-    });
-});*/
-
 QUnit.test('check if aria attributes are set', function (assert) {
     // Number of tests
     assert.expect(7);
@@ -104,4 +83,17 @@ QUnit.test('check if aria attributes are set', function (assert) {
         assert.equal(simplenav.find('.js-simplenav-dropdown').attr('aria-hidden'),'false', "Dropdown has aria hidden on false");
         done();
     });
+});
+
+QUnit.test('test if open toggle works', function (assert) {
+    var simplenav = $('.js-simplenav').simplenav();
+    var settings = simplenav[0].globalData[0].settings;
+
+    // Move items in dropdown so we an open dropdown
+    simplenav.app.moveItem(simplenav);
+
+    simplenav.find('.js-simplenav-toggle').trigger('click');
+    assert.ok(simplenav.find('.js-simplenav-toggle').hasClass(settings.activeclass), "Simplenav is open");
+    simplenav.find('.js-simplenav-toggle').trigger('click');
+    assert.notOk(simplenav.find('.js-simplenav-toggle').hasClass(settings.activeclass), "Simplenav is not open");
 });
