@@ -1,6 +1,6 @@
 {
   "name": "simple-responsive-nav",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "",
   "main": "./src/simple-nav.js",
   "scripts": {
@@ -13,7 +13,10 @@
   "author": "gijsroge <rogegijs@gmail.com>",
   "license": "ISC",
   "homepage": "https://bitbucket.org/gijsroge/simplenav#readme",
-  "dependencies": {
+  "devDependencies": {
+    "browser-sync": "2.16.0",
+    "gulp-watch": "4.3.6",
+    "jshint": "^2.9.3",
     "autoprefixer": "6.3.6",
     "gulp": "3.9.1",
     "gulp-plumber": "1.1.0",
@@ -26,10 +29,5 @@
     "postcss-scss": "0.1.8",
     "qunitjs": "^2.0.1",
     "require-dir": "0.3.0"
-  },
-  "devDependencies": {
-    "browser-sync": "2.16.0",
-    "gulp-watch": "4.3.6",
-    "jshint": "^2.9.3"
   }
 }
