@@ -45,7 +45,7 @@
 
                 // All focusable elements
                 // From: https://github.com/edenspiekermann/a11y-dialog/blob/master/a11y-dialog.js#L31
-                var links = data.element.find('.js-simplenav-wrapper').find('a[href]:visible, area[href]:visible, input:not([disabled]):visible, select:not([disabled]):visible, textarea:not([disabled]):visible, button:not([disabled]):visible, iframe:visible, object:visible, embed:visible, [contenteditable]:visible, [tabindex]:not([tabindex^="-"]):visible');
+                var links = data.element.find('.js-simplenav-wrapper').find('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [contenteditable], [tabindex]:not([tabindex^="-"])');
 
                 // store first focusable element for future reference
                 data.firstFocusElement = links.eq(1);
@@ -436,7 +436,6 @@
             // Increment instance id
             instance++;
 
-            // Done callback
             settings.done.call(this);
         });
 
