@@ -29,14 +29,24 @@
              */
             prepareHtml: function ($this, instance) {
                 var setting = globalData[instance].settings;
+                var dropdown = $this.find('.js-simplenav-wrapper');
                 $this.attr('data-simplenav-instance', instance);
-                if ($this.find('.js-simplenav-toggle').length) return;
-                $this.append('' +
-                    '<li class="js-simplenav-wrapper ' + settings.wrapperClasses + '" style="display:none;">' +
-                    '<button id="menu-button-' + instance + '" aria-label="Menu" aria-expanded="false" aria-controls="menu-' + instance + '" type="button" class="js-simplenav-toggle ' + settings.buttonClasses + '"><span class="js-simplenav-label">' + settings.more + '</span></button>' +
-                    '<ul id="menu-' + instance + '" aria-hidden="true" aria-labelledby="menu-button-' + instance + '" style="position: absolute;" class="js-simplenav-dropdown ' + settings.dropdownClasses + '"></ul>' +
-                    '</li>' +
-                    '');
+
+                if ($this.find('.js-simplenav-toggle').length) {
+                    dropdown.addClass(settings.wrapperClasses).hide();
+                    $this.find('.js-simplenav-toggle').addClass(settings.buttonClasses).attr({'aria-expanded': false, 'aria-controls': 'menu-'+instance});
+                    if(!dropdown.children('ul').length){
+                        dropdown.append('<ul></ul>');
+                        dropdown.children('ul').attr({'id': 'menu-'+instance, 'aria-hidden': true, 'aria-labelledby': 'menu-button-'+instance}).css('position', 'absolute').addClass('js-simplenav-dropdown '+settings.dropdownClasses);
+                    }
+                } else {
+                    $this.append('' +
+                        '<li class="js-simplenav-wrapper ' + settings.wrapperClasses + '" style="display:none;">' +
+                        '<button id="menu-button-' + instance + '" aria-label="Menu" aria-expanded="false" aria-controls="menu-' + instance + '" type="button" class="js-simplenav-toggle ' + settings.buttonClasses + '"><span class="js-simplenav-label">' + settings.more + '</span></button>' +
+                        '<ul id="menu-' + instance + '" aria-hidden="true" aria-labelledby="menu-button-' + instance + '" style="position: absolute;" class="js-simplenav-dropdown ' + settings.dropdownClasses + '"></ul>' +
+                        '</li>' +
+                        '');
+                }
             },
 
             trapFocus: function (data) {
@@ -45,7 +55,7 @@
 
                 // All focusable elements
                 // From: https://github.com/edenspiekermann/a11y-dialog/blob/master/a11y-dialog.js#L31
-                var links = data.element.find('.js-simplenav-wrapper').find('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [contenteditable], [tabindex]:not([tabindex^="-"])');
+                var links = data.element.find('.js-simplenav-wrapper').find('a[href]:visible, area[href]:visible, input:not([disabled]):visible, select:not([disabled]):visible, textarea:not([disabled]):visible, button:not([disabled]):visible, iframe:visible, object:visible, embed:visible, [contenteditable]:visible, [tabindex]:not([tabindex^="-"]):visible');
 
                 // store first focusable element for future reference
                 data.firstFocusElement = links.eq(1);
@@ -436,6 +446,7 @@
             // Increment instance id
             instance++;
 
+            // Done callback
             settings.done.call(this);
         });
 
