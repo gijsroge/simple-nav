@@ -71,7 +71,6 @@
 
                 // Set focus to first focusable element
                 data.firstFocusElement.focus();
-                console.log(data.dropdown);
 
                 /**
                  * Based on http://dylanb.github.io/javascripts/periodic-1.1.js
