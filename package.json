@@ -8,11 +8,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/gijsroge/simplenav.git"
+    "url": "git@github.com:gijsroge/simple-nav.git"
   },
   "author": "gijsroge <rogegijs@gmail.com>",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/gijsroge/simplenav#readme",
+  "homepage": "https://github.com/gijsroge/simple-nav",
   "devDependencies": {
     "browser-sync": "2.16.0",
     "gulp-watch": "4.3.6",
