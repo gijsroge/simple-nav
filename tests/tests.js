@@ -3,7 +3,7 @@
  */
 
 // Test if main function still works
-QUnit.test('global test', function (assert) {
+/*QUnit.test('global test', function (assert) {
     var simplenav = $('.js-simplenav').simplenav();
     assert.ok(simplenav, 'simplenav function works')
 });
@@ -83,13 +83,13 @@ QUnit.test('check if aria attributes are set', function (assert) {
         assert.equal(simplenav.find('.js-simplenav-dropdown').attr('aria-hidden'),'false', "Dropdown has aria hidden on false");
         done();
     });
-});
+});*/
 
 QUnit.test('test if open toggle works', function (assert) {
     var simplenav = $('.js-simplenav').simplenav();
     var settings = simplenav[0].globalData[0].settings;
 
-    // Move items in dropdown so we an open dropdown
+    // Move items in dropdown so we see an open dropdown
     simplenav.app.moveItem(simplenav);
 
     simplenav.find('.js-simplenav-toggle').trigger('click');

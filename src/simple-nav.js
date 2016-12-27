@@ -71,6 +71,7 @@
 
                 // Set focus to first focusable element
                 data.firstFocusElement.focus();
+                console.log(data.dropdown);
 
                 /**
                  * Based on http://dylanb.github.io/javascripts/periodic-1.1.js
@@ -297,6 +298,7 @@
                     $(element)
                         .addClass(data.settings.activeclass)
                         .find('.js-simplenav-wrapper')
+                        .show()
                         .addClass(data.settings.activeclass);
                     $(element)
                         .find('.js-simplenav-dropdown')
@@ -445,7 +447,7 @@
                 if (!data.settings.trapfocus) {
                     data.toggle.on('focus', function () {
                         app.openDropdown($this, true);
-                    })
+                    });
 
                     app.tabHandler($this);
                 }
@@ -475,6 +477,7 @@
         this.each(function () {
             // Test if simple nav is binded to ul or ol before continuing.
             var test = $(this).is('ul') || $(this).is('ol');
+
             if (!test) {
                 console.warn('[!] wrong element, please bind simplenav to ul\'s only');
                 return;
@@ -489,15 +492,19 @@
                 open: false,
                 settings: settings,
                 element: $(this),
-                toggle: $(this).find('.js-simplenav-toggle'),
-                dropdown: $(this).find('.js-simplenav-wrapper'),
                 breaks: []
             });
 
             // Expose each instance its data
             this.globalData = globalData;
 
+            // Prepare toggle/dropdown/aria
             app.prepareHtml($(this), instance);
+
+            // Store selectors after html has been prepared
+            globalData[instance].toggle = $(this).find('.js-simplenav-toggle');
+            globalData[instance].dropdown = $(this).find('.js-simplenav-wrapper');
+
             simplenav.check($(this));
             app.toggleDropdown($(this));
             app.bindResize($(this));
