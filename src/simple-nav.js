@@ -5,6 +5,7 @@
         var simplenav = this;
         var globalData = [];
         var lastfocus;
+        var focusableElements = 'a[href]:visible, area[href]:visible, input:not([disabled]):visible, select:not([disabled]):visible, textarea:not([disabled]):visible, button:not([disabled]):visible, iframe:visible, object:visible, embed:visible, [contenteditable]:visible, [tabindex]:not([tabindex^="-"]):visible';
 
         var settings = $.extend({
             buttonClasses: '',
@@ -14,6 +15,7 @@
             activeclass: 'is-open',
             throttle: 250,
             collapse: 0,
+            trapfocus: true,
             more: $(this).data('simplenav-more') ? $(this).data('simplenav-more') : 'more',
             menu: $(this).data('simplenav-menu') ? $(this).data('simplenav-menu') : 'menu',
             done: function () {
@@ -34,10 +36,17 @@
 
                 if ($this.find('.js-simplenav-toggle').length) {
                     dropdown.addClass(settings.wrapperClasses).hide();
-                    $this.find('.js-simplenav-toggle').addClass(settings.buttonClasses).attr({'aria-expanded': false, 'aria-controls': 'menu-'+instance});
-                    if(!dropdown.children('ul').length){
+                    $this.find('.js-simplenav-toggle').addClass(settings.buttonClasses).attr({
+                        'aria-expanded': false,
+                        'aria-controls': 'menu-' + instance
+                    });
+                    if (!dropdown.children('ul').length) {
                         dropdown.append('<ul></ul>');
-                        dropdown.children('ul').attr({'id': 'menu-'+instance, 'aria-hidden': true, 'aria-labelledby': 'menu-button-'+instance}).css('position', 'absolute').addClass('js-simplenav-dropdown '+settings.dropdownClasses);
+                        dropdown.children('ul').attr({
+                            'id': 'menu-' + instance,
+                            'aria-hidden': true,
+                            'aria-labelledby': 'menu-button-' + instance
+                        }).css('position', 'absolute').addClass('js-simplenav-dropdown ' + settings.dropdownClasses);
                     }
                 } else {
                     $this.append('' +
@@ -55,7 +64,7 @@
 
                 // All focusable elements
                 // From: https://github.com/edenspiekermann/a11y-dialog/blob/master/a11y-dialog.js#L31
-                var links = data.element.find('.js-simplenav-wrapper').find('a[href]:visible, area[href]:visible, input:not([disabled]):visible, select:not([disabled]):visible, textarea:not([disabled]):visible, button:not([disabled]):visible, iframe:visible, object:visible, embed:visible, [contenteditable]:visible, [tabindex]:not([tabindex^="-"]):visible');
+                var links = data.dropdown.find(focusableElements);
 
                 // store first focusable element for future reference
                 data.firstFocusElement = links.eq(1);
@@ -66,7 +75,7 @@
                 /**
                  * Based on http://dylanb.github.io/javascripts/periodic-1.1.js
                  */
-                data.element.find('.js-simplenav-wrapper').on('keydown', function (e) {
+                data.dropdown.on('keydown', function (e) {
                     var cancel = false;
 
                     if (e.ctrlKey || e.metaKey || e.altKey || !data.open) {
@@ -250,8 +259,8 @@
                 var _this = this;
                 var data = app.getDataFromInstance($this);
 
-                $(data.element).find('.js-simplenav-toggle').on('click', function () {
-                    if ($(this).hasClass(data.settings.activeclass)) {
+                data.toggle.on('click', function () {
+                    if (data.open) {
                         _this.closeDropdown(data);
                     } else {
                         _this.openDropdown($this);
@@ -272,11 +281,13 @@
                  *
                  * @param element
                  */
-                this.openDropdown = function (element) {
+                this.openDropdown = function (element, kb) {
                     var data = app.getDataFromInstance(element);
 
                     // mark instance as open
-                    data.open = true;
+                    if (!kb) {
+                        data.open = true;
+                    }
 
                     // Toggle aria attributes
                     data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'true');
@@ -295,7 +306,9 @@
                         .addClass(data.settings.activeclass);
 
                     // Set focus loop inside dropdown content
-                    app.trapFocus(data);
+                    if (data.settings.trapfocus) {
+                        app.trapFocus(data);
+                    }
 
                     // Triger custom open event
                     setTimeout(function () {
@@ -308,20 +321,18 @@
                  * Close dropdown
                  */
                 this.closeDropdown = function (data) {
-                    if (data.open) {
-                        // Toggle aria attributes
-                        data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'false');
-                        data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'true');
-                        if (lastfocus) {
-                            lastfocus.focus();
-                        }
-
-                        // Toggle classes
-                        $(data.element).removeClass(data.settings.activeclass).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
-
-                        // mark instance as closed
-                        data.open = false;
+                    // Toggle aria attributes
+                    data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'false');
+                    data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'true');
+                    if (lastfocus) {
+                        lastfocus.focus();
                     }
+
+                    // Toggle classes
+                    $(data.element).removeClass(data.settings.activeclass).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
+
+                    // mark instance as closed
+                    data.open = false;
                 };
             },
 
@@ -332,9 +343,9 @@
              */
             checkDropdown: function (data) {
                 if (data.breaks.length > 0) {
-                    data.element.find('.js-simplenav-wrapper').show();
+                    data.dropdown.show();
                 } else {
-                    data.element.find('.js-simplenav-wrapper').hide();
+                    data.dropdown.hide();
                 }
             },
 
@@ -392,6 +403,52 @@
                     simplenav.check($this);
                 }, data.settings.throttle);
                 $(window).on('resize', check);
+            },
+
+
+            tabHandler: function ($this) {
+                var data = app.getDataFromInstance($this);
+
+                // All focusable elements
+                // From: https://github.com/edenspiekermann/a11y-dialog/blob/master/a11y-dialog.js#L31
+                var links = data.dropdown.find(focusableElements);
+
+                /**
+                 * Bind keydown on toggle/dropdown items so we
+                 * can open/close dropdown when user tabs on the element
+                 */
+                data.dropdown.on('keydown', function (e) {
+                    if (e.which == 9) {
+                        // Shift tab
+                        var item = $(e.target);
+                        if (e.shiftKey) {
+                            if (item.is(data.toggle)) {
+                                app.closeDropdown(data);
+                            }
+                        }else{
+                            if (item.is(links.last())) {
+                                app.closeDropdown(data);
+                            }
+                        }
+                    }
+                });
+            },
+
+
+            /**
+             * Bind events
+             * @param $this
+             */
+            bindUIevents: function ($this) {
+                var data = app.getDataFromInstance($this);
+
+                if (!data.settings.trapfocus) {
+                    data.toggle.on('focus', function () {
+                        app.openDropdown($this, true);
+                    })
+
+                    app.tabHandler($this);
+                }
             }
         };
 
@@ -432,6 +489,8 @@
                 open: false,
                 settings: settings,
                 element: $(this),
+                toggle: $(this).find('.js-simplenav-toggle'),
+                dropdown: $(this).find('.js-simplenav-wrapper'),
                 breaks: []
             });
 
@@ -442,6 +501,7 @@
             simplenav.check($(this));
             app.toggleDropdown($(this));
             app.bindResize($(this));
+            app.bindUIevents($(this));
 
             // Increment instance id
             instance++;
