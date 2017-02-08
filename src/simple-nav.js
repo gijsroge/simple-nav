@@ -12,12 +12,14 @@
             wrapperClasses: '',
             dropdownClasses: '',
             parent: '.c-header',
-            activeclass: 'is-open',
+            openClass: 'is-open',
+            activeClass: 'is-active',
             throttle: 250,
             collapse: 0,
             trapfocus: true,
             more: $(this).data('simplenav-more') ? $(this).data('simplenav-more') : 'more',
             menu: $(this).data('simplenav-menu') ? $(this).data('simplenav-menu') : 'menu',
+            findActiveClasses: 'is-active',
             done: function () {
             }
         }, options);
@@ -55,6 +57,19 @@
                         '<ul id="menu-' + instance + '" aria-hidden="true" aria-labelledby="menu-button-' + instance + '" style="position: absolute;" class="js-simplenav-dropdown ' + settings.dropdownClasses + '"></ul>' +
                         '</li>' +
                         '');
+                }
+            },
+
+            /**
+             * Set active state to toggle if submenu's contain active classes
+             * @param data
+             */
+            handleActiveState: function (data) {
+                var hasActiveClasses = $(data.dropdown).find('.js-simplenav-dropdown .'+settings.findActiveClasses).length > 0 ? true : false;
+                if(hasActiveClasses){
+                    $(data.toggle).addClass(data.settings.activeClass);
+                }else{
+                    $(data.toggle).removeClass(data.settings.activeClass);
                 }
             },
 
@@ -295,16 +310,16 @@
 
                     // Add active classes
                     $(element)
-                        .addClass(data.settings.activeclass)
+                        .addClass(data.settings.openClass)
                         .find('.js-simplenav-wrapper')
                         .show()
-                        .addClass(data.settings.activeclass);
+                        .addClass(data.settings.openClass);
                     $(element)
                         .find('.js-simplenav-dropdown')
-                        .addClass(data.settings.activeclass);
+                        .addClass(data.settings.openClass);
                     $(element)
                         .find('.js-simplenav-toggle')
-                        .addClass(data.settings.activeclass);
+                        .addClass(data.settings.openClass);
 
                     // Set focus loop inside dropdown content
                     if (data.settings.trapfocus) {
@@ -330,7 +345,7 @@
                     }
 
                     // Toggle classes
-                    $(data.element).removeClass(data.settings.activeclass).find('.' + data.settings.activeclass).removeClass(data.settings.activeclass);
+                    $(data.element).removeClass(data.settings.openClass).find('.' + data.settings.openClass).removeClass(data.settings.openClass);
 
                     // mark instance as closed
                     data.open = false;
@@ -426,7 +441,7 @@
                             if (item.is(data.toggle)) {
                                 app.closeDropdown(data);
                             }
-                        }else{
+                        } else {
                             if (item.is(links.last())) {
                                 app.closeDropdown(data);
                             }
@@ -467,6 +482,7 @@
             app.checklabel(_data);
             app.checkVars(_data);
             app.checkMove(_data);
+            app.handleActiveState(_data);
         };
 
         // Expose our app
