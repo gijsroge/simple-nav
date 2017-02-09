@@ -459,8 +459,12 @@
                 var data = app.getDataFromInstance($this);
 
                 if (!data.settings.trapfocus) {
-                    data.toggle.on('focus', function () {
-                        app.openDropdown($this, true);
+
+                    $(window).on('keyup', function (e) {
+                        var code = (e.keyCode ? e.keyCode : e.which);
+                        if (code == 9 && data.toggle.is(':focus')) {
+                            app.openDropdown($this, true);
+                        }
                     });
 
                     app.tabHandler($this);
