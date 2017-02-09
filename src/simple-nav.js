@@ -34,6 +34,10 @@
             prepareHtml: function ($this, instance) {
                 var setting = globalData[instance].settings;
                 var dropdown = $this.find('.js-simplenav-wrapper');
+                if (dropdown.length == 0){
+                    console.warn('js-simplenav-wrapper class not found on <li> element');
+                    return false;
+                };
                 $this.attr('data-simplenav-instance', instance);
 
                 if ($this.find('.js-simplenav-toggle').length) {
@@ -58,6 +62,8 @@
                         '</li>' +
                         '');
                 }
+
+                return true;
             },
 
             /**
@@ -338,14 +344,14 @@
                  */
                 this.closeDropdown = function (data) {
                     // Toggle aria attributes
-                    data.element.find('.js-simplenav-toggle').attr('aria-expanded', 'false');
-                    data.element.find('.js-simplenav-dropdown').attr('aria-hidden', 'true');
+                    data.dropdown.find('.js-simplenav-toggle').attr('aria-expanded', 'false');
+                    data.dropdown.find('.js-simplenav-dropdown').attr('aria-hidden', 'true');
                     if (lastfocus) {
                         lastfocus.focus();
                     }
 
                     // Toggle classes
-                    $(data.element).removeClass(data.settings.openClass).find('.' + data.settings.openClass).removeClass(data.settings.openClass);
+                    $(data.dropdown).removeClass(data.settings.openClass).find('.' + data.settings.openClass).removeClass(data.settings.openClass);
 
                     // mark instance as closed
                     data.open = false;
@@ -518,7 +524,9 @@
             this.globalData = globalData;
 
             // Prepare toggle/dropdown/aria
-            app.prepareHtml($(this), instance);
+            if(!app.prepareHtml($(this), instance)){
+                return;
+            };
 
             // Store selectors after html has been prepared
             globalData[instance].toggle = $(this).find('.js-simplenav-toggle');
