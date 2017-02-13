@@ -34,10 +34,11 @@
             prepareHtml: function ($this, instance) {
                 var setting = globalData[instance].settings;
                 var dropdown = $this.find('.js-simplenav-wrapper');
-                if (dropdown.length == 0){
+                if (dropdown.length == 0) {
                     console.warn('js-simplenav-wrapper class not found on <li> element');
                     return false;
-                };
+                }
+                ;
                 $this.attr('data-simplenav-instance', instance);
 
                 if ($this.find('.js-simplenav-toggle').length) {
@@ -72,10 +73,10 @@
              * @param data
              */
             handleActiveState: function (data) {
-                var hasActiveClasses = $(data.dropdown).find('.js-simplenav-dropdown .'+settings.findActiveClasses).length > 0 ? true : false;
-                if(hasActiveClasses){
+                var hasActiveClasses = $(data.dropdown).find('.js-simplenav-dropdown .' + settings.findActiveClasses).length > 0 ? true : false;
+                if (hasActiveClasses) {
                     $(data.toggle).addClass(data.settings.activeClass);
-                }else{
+                } else {
                     $(data.toggle).removeClass(data.settings.activeClass);
                 }
             },
@@ -525,9 +526,9 @@
             this.globalData = globalData;
 
             // Prepare toggle/dropdown/aria
-            if(!app.prepareHtml($(this), instance)){
+            if (!app.prepareHtml($(this), instance)) {
                 return;
-            };
+            }
 
             // Store selectors after html has been prepared
             globalData[instance].toggle = $(this).find('.js-simplenav-toggle');
