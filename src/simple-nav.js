@@ -288,7 +288,7 @@
                     }
                 });
                 $(document).on('click', function (e) {
-                    if (!$(e.target).closest('.js-simplenav-wrapper').length || $(e.target).hasClass('js-simplenav-wrapper')) {
+                    if (!$(e.target).closest('li.js-simplenav-wrapper').length || $(e.target).hasClass('js-simplenav-wrapper')) {
                         _this.closeDropdown(data);
                     }
                 });
