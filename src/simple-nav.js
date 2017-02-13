@@ -43,6 +43,7 @@
                 if ($this.find('.js-simplenav-toggle').length) {
                     dropdown.addClass(settings.wrapperClasses).hide();
                     $this.find('.js-simplenav-toggle').addClass(settings.buttonClasses).attr({
+                        'id': 'menu-button-' + instance,
                         'aria-expanded': false,
                         'aria-controls': 'menu-' + instance
                     });
