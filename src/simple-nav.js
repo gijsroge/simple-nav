@@ -350,6 +350,7 @@
                     data.dropdown.find('.js-simplenav-dropdown').attr('aria-hidden', 'true');
                     if (lastfocus) {
                         lastfocus.focus();
+                        lastfocus = '';
                     }
 
                     // Toggle classes
