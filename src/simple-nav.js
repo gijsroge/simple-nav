@@ -281,6 +281,7 @@
             toggleDropdown: function ($this) {
                 var _this = this;
                 var data = app.getDataFromInstance($this);
+                var dropdown = $this.find('.js-simplenav-wrapper');
 
                 data.toggle.on('click', function () {
                     if (data.open) {
@@ -290,7 +291,7 @@
                     }
                 });
                 $(document).on('click', function (e) {
-                    if (!$(e.target).closest('li.js-simplenav-wrapper').length || $(e.target).hasClass('js-simplenav-wrapper')) {
+                    if (!$(e.target).closest(dropdown).length || $(e.target).hasClass('js-simplenav-wrapper')) {
                         _this.closeDropdown(data);
                     }
                 });
