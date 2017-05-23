@@ -14,6 +14,7 @@
             parent: '.c-header',
             openClass: 'is-open',
             activeClass: 'is-active',
+            hideClass: false,
             throttle: 250,
             collapse: 0,
             trapfocus: true,
@@ -365,9 +366,17 @@
              */
             checkDropdown: function (data) {
                 if (data.breaks.length > 0) {
-                    data.dropdown.show();
+                    if(data.settings.hideClass){
+                        data.dropdown.removeClass(data.settings.hideClass);
+                    }else{
+                        data.dropdown.show();
+                    }
                 } else {
-                    data.dropdown.hide();
+                    if(data.settings.hideClass){
+                        data.dropdown.addClass(data.settings.hideClass);
+                    }else{
+                        data.dropdown.hide();
+                    }
                 }
             },
 
