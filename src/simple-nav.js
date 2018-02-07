@@ -21,6 +21,7 @@
             more: $(this).data('simplenav-more') ? $(this).data('simplenav-more') : 'more',
             menu: $(this).data('simplenav-menu') ? $(this).data('simplenav-menu') : 'menu',
             findActiveClasses: 'is-active',
+            hover: false,
             done: function () {
             }
         }, options);
@@ -284,13 +285,24 @@
                 var data = app.getDataFromInstance($this);
                 var dropdown = $this.find('.js-simplenav-wrapper');
 
-                data.toggle.on('click', function () {
-                    if (data.open) {
-                        _this.closeDropdown(data);
-                    } else {
+                if (!data.settings.hover) {
+                    data.toggle.on('click', function () {
+                        if (data.open) {
+                            _this.closeDropdown(data);
+                        } else {
+                            _this.openDropdown($this);
+                        }
+                    });
+                } else {
+                    data.toggle.on('mouseenter', function () {
                         _this.openDropdown($this);
-                    }
-                });
+                    });
+
+                    data.dropdown.on('mouseleave', function () {
+                        _this.closeDropdown(data);
+                    });
+                }
+
                 $(document).on('click', function (e) {
                     if (!$(e.target).closest(dropdown).length || $(e.target).hasClass('js-simplenav-wrapper')) {
                         _this.closeDropdown(data);
